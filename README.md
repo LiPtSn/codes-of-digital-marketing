@@ -9,4 +9,4 @@
 
 普通聚类方法：k-means.py
 
-深度学习方法：Autoencoder_gpu.py
+深度学习方法：Autoencoder.py
