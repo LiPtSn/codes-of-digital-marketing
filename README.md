@@ -12,7 +12,7 @@
 ### 2.聚类
 普通聚类方法：k-means.py
 
-深度学习方法：Autoencoder.py
+深度学习方法：VAE.py
 
 ### 3.时序预测
 ARIMA+LSTM两种算法：LSTM+ARIMA.py
