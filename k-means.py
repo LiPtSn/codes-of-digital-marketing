@@ -5,7 +5,9 @@ from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.cluster import KMeans
-from sklearn.metrics import precision_recall_fscore_support, roc_auc_score
+from sklearn.metrics import precision_recall_fscore_support, roc_auc_score, confusion_matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 # 1. 读取数据（全量作为训练集与评估集）
 df = pd.read_csv('financial_fraud_detection_dataset.csv', parse_dates=['timestamp'])
@@ -73,3 +75,27 @@ print(f'Precision: {prec:.4f}')
 print(f'Recall:    {rec:.4f}')
 print(f'F1-score:  {f1:.4f}')
 print(f'ROC-AUC:   {roc_auc:.4f}')
+
+# 8. 混淆矩阵（表格）
+cm = confusion_matrix(y, y_pred, labels=[1, 0])
+cm_df = pd.DataFrame(
+    cm,
+    index=['实际_欺诈(1)', '实际_非欺诈(0)'],
+    columns=['预测_欺诈(1)', '预测_非欺诈(0)']
+)
+
+print('\n=== 混淆矩阵 ===')
+print(cm_df)
+
+# 9. 绘制并保存混淆矩阵热力图
+plt.rcParams['font.sans-serif'] = ['SimHei']
+plt.rcParams['axes.unicode_minus'] = False
+
+plt.figure(figsize=(8, 6))
+sns.heatmap(cm_df, annot=True, fmt='d', cmap='Blues')
+plt.title('Confusion Matrix (Risk Cluster Method)', fontsize=14)
+plt.xlabel('Predicted Label')
+plt.ylabel('True Label')
+plt.tight_layout()
+plt.savefig('k-means混淆矩阵.png', dpi=300)
+plt.close()
